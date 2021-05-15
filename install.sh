@@ -1,8 +1,8 @@
 #!/bin/bash
 pwd=`dirname $0`
 
-read -e -p "Target directory: " -i "/var/www" dir
-dir=${dir:-"/var/www"}
+read -e -p "Target directory: " -i "/var/www/html" dir
+dir=${dir:-"/var/www/html"}
 
 read -e -p "Database: " -i "wordpress" db
 db=${db:-"wordpress"}
@@ -14,15 +14,15 @@ fi
 sudo apt-get install -y \
 	mysql-server \
 	nginx \
-	php5-curl \
-	php5-fpm \
-	php5-gd \
-	php5-mysql \
+	php7.4-curl \
+	php7.4-fpm \
+	php7.4-gd \
+	php7.4-mysql \
 	wget \
 	unzip
 
-sudo replace "2M" "10M" -- /etc/php5/fpm/php.ini
-sudo service php5-fpm restart
+sudo replace "2M" "10M" -- /etc/php7.4/fpm/php.ini
+sudo service php7.4-fpm restart
 
 sudo mysql -e "CREATE DATABASE IF NOT EXISTS $db;"
 
@@ -52,7 +52,7 @@ cd - >/dev/null
 sites="/etc/nginx/sites-enabled"
 
 sudo cp "$pwd/conf/wordpress" $sites
-sudo replace "/var/www" $dir -- "$sites/wordpress"
+sudo replace "/var/www/html" $dir -- "$sites/wordpress"
 
 if [ -e "$sites/default" ]; then
 	read -r -n 1 -p "Delete 'default' nginx site? (y/n)"
