@@ -1,6 +1,6 @@
 server {
 	listen 80;
-	server_name ;
+	server_name 13.212.89.181;
 	root /var/www/html;
 	index index.php;
 	location / {
